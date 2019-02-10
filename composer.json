@@ -1,0 +1,28 @@
+{
+    "name": "logifire/naive-user-state",
+    "description": "Session and cookie handling",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Logifire",
+            "email": "Logifire@users.noreply.github.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^8.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "NaiveUserState\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": { 
+            "NaiveUserState\\Tests\\": "tests/" 
+        }
+    }
+}
