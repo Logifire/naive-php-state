@@ -1,27 +1,34 @@
 <?php
 namespace NaiveUserState;
 
-class CollectionService implements Session, Cookie
+use RuntimeException;
+
+class SessionCollection
 {
 
     /**
-     * @var array Matched URL parameters
+     * @var array
      */
     protected $data;
 
-    public function __construct(array $data)
+    public function __construct(array &$data)
     {
-        $this->data = $data;
+        $this->data = &$data;
     }
 
-    public function hasString(string $name): bool
+    public function hasKey(string $name): bool
     {
-        return isset($this->data[$name]) && is_string($this->data[$name]);
+        return isset($this->data[$name]);
+    }
+
+    public function isString(string $name): bool
+    {
+        return is_string($this->data[$name]);
     }
 
     public function getString(string $name): string
     {
-        if (!$this->hasString($name)) {
+        if (!$this->isString($name)) {
             throw new RuntimeException("No string mathches for {$name}");
         }
         return $this->data[$name];
@@ -36,14 +43,14 @@ class CollectionService implements Session, Cookie
         $this->data[$name] = $value;
     }
 
-    public function hasInteger(string $name): bool
+    public function isInteger(string $name): bool
     {
-        return isset($this->data[$name]) && is_numeric($this->data[$name]);
+        return is_numeric($this->data[$name]);
     }
 
     public function getInetger(string $name): int
     {
-        if (!$this->hasInteger($name)) {
+        if (!$this->isInteger($name)) {
             throw new RuntimeException("No integer matches for {$name}");
         }
 
@@ -59,14 +66,14 @@ class CollectionService implements Session, Cookie
         $this->data[$name] = $value;
     }
 
-    public function hasCollection(string $name): bool
+    public function isCollection(string $name): bool
     {
         return isset($this->data[$name]) && is_array($this->data[$name]);
     }
 
     public function getCollection(string $name): array
     {
-        if (!$this->hasCollection($name)) {
+        if (!$this->isCollection($name)) {
             throw new RuntimeException("No collection matches for {$name}");
         }
 
