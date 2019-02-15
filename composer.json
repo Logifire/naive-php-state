@@ -20,7 +20,8 @@
         "nyholm/psr7": "1.0.1",
         "logifire/naive-middleware": "^0.0.1",
         "nyholm/psr7-server": "0.3.0",
-        "logifire/naive-container": "1.2.1"
+        "logifire/naive-container": "1.2.1",
+        "zendframework/zend-httphandlerrunner": "1.0.1"
     },
     "autoload": {
         "psr-4": {

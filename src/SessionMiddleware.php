@@ -26,10 +26,29 @@ class SessionMiddleware implements MiddlewareInterface
 
         session_start($options);
 
-//        $session_collection = new SessionCollection($_SESSION);
-//
-//        $request = $request->withAttribute(self::SESSION_KEY, $session_collection);
         $response = $handler->handle($request);
+
+        $cookie_params = session_get_cookie_params();
+
+        $expires = time() + $cookie_params['lifetime'];
+        $path = $cookie_params['path'];
+        $domain = $cookie_params['domain'];
+        $secure = $cookie_params['secure'];
+        $httponly = $cookie_params['httponly'];
+        $same_site = $cookie_params['samesite'] ?? ''; // PHP 7.3.0
+
+        $cookie_value = Cookie::createCookie(
+                session_name(),
+                session_id(),
+                $expires,
+                $path,
+                $domain,
+                $secure,
+                $httponly,
+                $same_site
+        );
+
+        $response = $response->withAddedHeader(Cookie::SET_COOKIE, $cookie_value);
 
         return $response;
     }
