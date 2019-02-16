@@ -1,8 +1,8 @@
 <?php
 
 use NaiveMiddleware\RequestHandler;
-use NaiveUserState\Cookie;
-use NaiveUserState\CookieResponseService;
+use NaiveUserState\ResponseCookie;
+use NaiveUserState\ResponseCookieService;
 use NaiveUserState\UserStateMiddleware;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
@@ -23,24 +23,24 @@ $request_creator = new ServerRequestCreator(
     $psr_17_factory,
     $psr_17_factory);
 
-$cookie_response_service = new CookieResponseService();
+$cookie_response_service = new ResponseCookieService();
 
 $inner_middleware = new Class($cookie_response_service) implements MiddlewareInterface {
 
     /**
-     * @var CookieResponseService
+     * @var ResponseCookieService
      */
     private $service;
 
-    public function __construct(CookieResponseService $service)
+    public function __construct(ResponseCookieService $service)
     {
         $this->service = $service;
     }
     
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $cookie = new Cookie('MyTester', 'test');
-        $this->service->addCookie($cookie);
+        $cookie = new ResponseCookie('MyTester', 'test');
+        $this->service->add($cookie);
         return new Response();
     }
 };

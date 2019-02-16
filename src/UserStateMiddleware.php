@@ -10,11 +10,11 @@ class UserStateMiddleware implements MiddlewareInterface
 {
 
     /**
-     * @var CookieResponseService
+     * @var ResponseCookieService
      */
     private $cookie_response_service;
 
-    public function __construct(CookieResponseService $cookie_response_service)
+    public function __construct(ResponseCookieService $cookie_response_service)
     {
 
         $this->cookie_response_service = $cookie_response_service;
@@ -35,11 +35,12 @@ class UserStateMiddleware implements MiddlewareInterface
 
     private function addCustomCookies(ResponseInterface $response): ResponseInterface
     {
-        /* @var $cookie Cookie */
-        foreach ($this->cookie_response_service->listCookies() as $cookie) {
-            $cookie_value = CookieHeaderCreator::getHeaderValue($cookie->getName(), $cookie->getValue());
+        /* @var $response_coookie ResponseCookie */
+        foreach ($this->cookie_response_service->list() as $response_coookie) {
+            $cookie_value = ResponseCookieHeaderCreator::getValue($response_coookie);
+
             // Multiple Set-Cookie: https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#The_Set-Cookie_and_Cookie_headers
-            $response = $response->withAddedHeader(CookieHeaderCreator::HEADER_NAME, $cookie_value);
+            $response = $response->withAddedHeader(ResponseCookieHeaderCreator::HEADER_NAME, $cookie_value);
         }
 
         return $response;
@@ -73,25 +74,22 @@ class UserStateMiddleware implements MiddlewareInterface
     {
         $cookie_params = session_get_cookie_params();
 
+        $response_cookie = new ResponseCookie(session_name(), session_id());
+
         $expires = $cookie_params['lifetime'] ? time() + $cookie_params['lifetime'] : 0;
-        $path = $cookie_params['path'];
-        $domain = $cookie_params['domain'];
-        $secure = $cookie_params['secure'];
-        $httponly = $cookie_params['httponly'];
+        $response_cookie->setExpires($expires);
+
+        $response_cookie->setPath($cookie_params['path']);
+        $response_cookie->setDomain($cookie_params['domain']);
+        $response_cookie->setSecure($cookie_params['secure']);
+        $response_cookie->setHttpOnly($cookie_params['httponly']);
+
         $same_site = $cookie_params['samesite'] ?? ''; // PHP 7.3.0
+        $response_cookie->setSameSite($same_site);
 
-        $cookie_value = CookieHeaderCreator::getHeaderValue(
-                session_name(),
-                session_id(),
-                $expires,
-                $path,
-                $domain,
-                $secure,
-                $httponly,
-                $same_site
-        );
+        $cookie_value = ResponseCookieHeaderCreator::getValue($response_cookie);
 
-        $response = $response->withAddedHeader(CookieHeaderCreator::HEADER_NAME, $cookie_value);
+        $response = $response->withAddedHeader(ResponseCookieHeaderCreator::HEADER_NAME, $cookie_value);
 
         return $response;
     }

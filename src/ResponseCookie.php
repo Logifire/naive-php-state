@@ -1,7 +1,7 @@
 <?php
 namespace NaiveUserState;
 
-class Cookie
+class ResponseCookie
 {
 
     /**
@@ -90,5 +90,35 @@ class Cookie
     public function getValue(): string
     {
         return $this->value;
+    }
+    
+    public function getExpires(): int
+    {
+        return $this->expires;
+    }
+
+    public function getPath(): string
+    {
+        return $this->path;
+    }
+
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    public function isSecure(): bool
+    {
+        return $this->secure;
+    }
+
+    public function isHttpOnly(): bool
+    {
+        return $this->http_only;
+    }
+
+    public function getSameSite(): string
+    {
+        return $this->same_site;
     }
 }
