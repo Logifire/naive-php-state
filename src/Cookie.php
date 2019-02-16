@@ -30,19 +30,26 @@ class Cookie
         string $same_site = ''): string
     {
         $cookie = ["{$name}={$value}"];
-        $cookie[] = "Expires=" . DateTime::createFromFormat("U", $expires, timezone_open('UTC'))->format(DateTime::COOKIE);
+        if ($expires !== 0) {
+            // The value 0 means "until the browser is closed"
+            $cookie[] = "Expires=" . DateTime::createFromFormat("U", $expires, timezone_open('UTC'))->format(DateTime::COOKIE);
+        }
         $cookie[] = "Path={$path}";
         if ($domain) {
-            $cookie[] = "Domain={$domain}"; // makes the cookie accessible under this domain and subdomains
+            // Makes the cookie accessible under this domain and subdomains
+            $cookie[] = "Domain={$domain}";
         }
         if ($secure) {
-            $cookie[] = "Secure"; // tells the client to send this cookie only with secure (HTTPS) requests
+            // Tells the client to send this cookie only with secure (HTTPS) requests
+            $cookie[] = "Secure";
         }
         if ($http_only) {
-            $cookie[] = "HTTPOnly"; // Disallow client-side access (from JavaScript)
+            // Disallow client-side access (from JavaScript)
+            $cookie[] = "HTTPOnly";
         }
         if ($same_site) {
-            $cookie[] = "SameSite={$same_site}"; // See https://www.owasp.org/index.php/SameSite
+            // See https://www.owasp.org/index.php/SameSite
+            $cookie[] = "SameSite={$same_site}";
         }
         return implode("; ", $cookie);
     }

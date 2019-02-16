@@ -43,3 +43,5 @@ $response = $handler->handle($request);
 $emitter = new SapiEmitter();
 
 $emitter->emit($response);
+
+echo 'Hello World';

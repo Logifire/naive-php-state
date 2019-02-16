@@ -30,7 +30,7 @@ class SessionMiddleware implements MiddlewareInterface
 
         $cookie_params = session_get_cookie_params();
 
-        $expires = time() + $cookie_params['lifetime'];
+        $expires = $cookie_params['lifetime'] ? time() + $cookie_params['lifetime'] : 0;
         $path = $cookie_params['path'];
         $domain = $cookie_params['domain'];
         $secure = $cookie_params['secure'];
