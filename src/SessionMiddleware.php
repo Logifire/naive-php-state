@@ -28,6 +28,15 @@ class SessionMiddleware implements MiddlewareInterface
 
         $response = $handler->handle($request);
 
+        $cookie_value = $this->getCookieHeadline();
+
+        $response = $response->withAddedHeader(CreateCookieHeader::SET_COOKIE, $cookie_value);
+
+        return $response;
+    }
+
+    private function getCookieHeadline(): string
+    {
         $cookie_params = session_get_cookie_params();
 
         $expires = $cookie_params['lifetime'] ? time() + $cookie_params['lifetime'] : 0;
@@ -37,7 +46,7 @@ class SessionMiddleware implements MiddlewareInterface
         $httponly = $cookie_params['httponly'];
         $same_site = $cookie_params['samesite'] ?? ''; // PHP 7.3.0
 
-        $cookie_value = Cookie::createCookie(
+        $cookie_value = CreateCookieHeader::getHeadline(
                 session_name(),
                 session_id(),
                 $expires,
@@ -48,8 +57,6 @@ class SessionMiddleware implements MiddlewareInterface
                 $same_site
         );
 
-        $response = $response->withAddedHeader(Cookie::SET_COOKIE, $cookie_value);
-
-        return $response;
+        return $cookie_value;
     }
 }

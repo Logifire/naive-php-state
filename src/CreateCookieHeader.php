@@ -3,7 +3,7 @@ namespace NaiveUserState;
 
 use DateTime;
 
-class Cookie
+class CreateCookieHeader
 {
 
     public const SET_COOKIE = 'Set-Cookie';
@@ -20,7 +20,7 @@ class Cookie
      * @param string $same_site
      * @return string
      */
-    public static function createCookie(string $name,
+    public static function getHeadline(string $name,
         string $value = '',
         int $expires = 0,
         string $path = '/',
