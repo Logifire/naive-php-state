@@ -26,9 +26,15 @@ class UserStateMiddleware implements MiddlewareInterface
 
         $response = $handler->handle($request);
 
-        $response = $this->addPhpSessionCookie($response);
+        $client_sesion_id = $this->getClientSessionId($request);
+
+        $response = $this->handleClientSessionId($response, $client_sesion_id);
 
         $response = $this->addCustomCookies($response);
+
+        if (session_status() == PHP_SESSION_ACTIVE) {
+            session_write_close();
+        }
 
         return $response;
     }
@@ -53,24 +59,55 @@ class UserStateMiddleware implements MiddlewareInterface
     private function initiatePhpSession(ServerRequestInterface $request): void
     {
         $options = [
-            'cache_limiter' => '', // Disable cache headers http://php.net/manual/en/function.session-cache-limiter.php
-            'use_cookies' => 0, // Prevent PHP writing the session cookie
-            'use_only_cookies' => 1, // Only fetch session id from cookie
+            // Disable cache headers http://php.net/manual/en/function.session-cache-limiter.php
+            'cache_limiter' => '',
+            // Prevent PHP writing the session cookie
+            'use_cookies' => 0,
+            // Only fetch session id from cookie
+            'use_only_cookies' => 1,
+            // If uninitialized session ID is sent from browser, new session ID is sent to browser. 
+            // Applications are protected from session fixation via session adoption with strict mode.
+            //'use_strict_mode' => 1 
         ];
 
-        $cookie = $request->getCookieParams();
-        if (isset($cookie[session_name()])) {
-            session_id($cookie[session_name()]);
+        $client_session_id = $this->getClientSessionId($request);
+        if ($client_session_id !== null) {
+            session_id($client_session_id);
         }
 
         session_start($options);
+    }
+
+    private function getClientSessionId(ServerRequestInterface $request): ?string
+    {
+        $sessino_id = null;
+        $cookie = $request->getCookieParams();
+        if (isset($cookie[session_name()])) {
+            $sessino_id = $cookie[session_name()];
+        }
+        return $sessino_id;
     }
 
     /**
      * Session cookie generated based on PHP configuration.
      * @see http://php.net/manual/en/session.configuration.php
      */
-    private function addPhpSessionCookie(ResponseInterface $response): ResponseInterface
+    private function handleClientSessionId(ResponseInterface $response, ?string $client_session_id): ResponseInterface
+    {
+        // If session_destroy() has been called, clear the cookie
+        if (session_status() === PHP_SESSION_NONE && $client_session_id !== null) {
+            $response = $this->clearClientSessionId($response);
+        }
+
+        // If session is instantiated
+        if (session_status() == PHP_SESSION_ACTIVE && $client_session_id === null) {
+            $response = $this->addClientSessionId($response);
+        }
+
+        return $response;
+    }
+
+    private function addClientSessionId(ResponseInterface $response): ResponseInterface
     {
         $cookie_params = session_get_cookie_params();
 
@@ -86,6 +123,18 @@ class UserStateMiddleware implements MiddlewareInterface
 
         $same_site = $cookie_params['samesite'] ?? ''; // PHP 7.3.0
         $response_cookie->setSameSite($same_site);
+
+        $cookie_value = ResponseCookieHeaderCreator::getValue($response_cookie);
+
+        $response = $response->withAddedHeader(ResponseCookieHeaderCreator::HEADER_NAME, $cookie_value);
+
+        return $response;
+    }
+
+    private function clearClientSessionId(ResponseInterface $response): ResponseInterface
+    {
+        $response_cookie = new ResponseCookie(session_name(), '');
+        $response_cookie->setExpires(12345678); // Expires the cookie
 
         $cookie_value = ResponseCookieHeaderCreator::getValue($response_cookie);
 

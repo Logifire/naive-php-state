@@ -36,7 +36,7 @@ $inner_middleware = new Class($cookie_response_service) implements MiddlewareInt
     {
         $this->service = $service;
     }
-    
+
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $cookie = new ResponseCookie('MyTester', 'test');

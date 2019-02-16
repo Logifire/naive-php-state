@@ -52,6 +52,9 @@ class ResponseCookie
         $this->value = $value;
     }
 
+    /**
+     * The value 0 means "until the browser is closed", session cookie.
+     */
     public function setExpires(int $expires): void
     {
         $this->expires = $expires;
@@ -91,7 +94,7 @@ class ResponseCookie
     {
         return $this->value;
     }
-    
+
     public function getExpires(): int
     {
         return $this->expires;

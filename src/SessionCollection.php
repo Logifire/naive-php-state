@@ -24,6 +24,11 @@ class SessionCollection
         return isset($this->session[$name]);
     }
 
+    public function removeKey(string $name): void
+    {
+        unset($this->session[$name]);
+    }
+
     public function isString(string $name): bool
     {
         return is_string($this->session[$name]);
