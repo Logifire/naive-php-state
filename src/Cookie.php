@@ -44,6 +44,8 @@ class Cookie
      */
     private $same_site = '';
 
+    // TODO: Max-Age
+
     public function __construct(string $name, string $value)
     {
         $this->name = $name;
@@ -83,5 +85,10 @@ class Cookie
     public function getName(): string
     {
         return $this->name;
+    }
+
+    public function getValue(): string
+    {
+        return $this->value;
     }
 }

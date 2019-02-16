@@ -34,6 +34,6 @@ class CookieResponseService
      */
     public function listCookies(): array
     {
-        $this->cookies;
+        return $this->cookies;
     }
 }

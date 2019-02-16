@@ -23,8 +23,9 @@ class CookieHeaderCreator
      * 
      * @return string
      */
-    public static function getHeaderValue(string $name,
-        string $value = '',
+    public static function getHeaderValue(
+        string $name,
+        string $value,
         int $expires = 0,
         string $path = '/',
         string $domain = '',
