@@ -1,7 +1,7 @@
 <?php
 
 use NaiveMiddleware\RequestHandler;
-use NaiveUserState\SessionMiddleware;
+use NaiveUserState\UserStateMiddleware;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7Server\ServerRequestCreator;
@@ -25,7 +25,6 @@ $inner_middleware = new Class() implements MiddlewareInterface {
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-//        var_dump($_SESSION);
         return new Response();
     }
 };
@@ -34,7 +33,7 @@ $request = $request_creator->fromGlobals();
 
 $handler = new RequestHandler($psr_17_factory);
 
-$handler->addMiddleware(new SessionMiddleware());
+$handler->addMiddleware(new UserStateMiddleware());
 
 $handler->addMiddleware($inner_middleware);
 

@@ -3,27 +3,30 @@ namespace NaiveUserState;
 
 use RuntimeException;
 
+/**
+ * This wraps the $_SESSION superglobal
+ */
 class SessionCollection
 {
 
     /**
-     * @var array
+     * @var array PHPs superglobal $_SESSION
      */
-    protected $data;
+    protected $session;
 
-    public function __construct(array &$data)
+    public function __construct()
     {
-        $this->data = &$data;
+        $this->session = &$_SESSION;
     }
 
     public function hasKey(string $name): bool
     {
-        return isset($this->data[$name]);
+        return isset($this->session[$name]);
     }
 
     public function isString(string $name): bool
     {
-        return is_string($this->data[$name]);
+        return is_string($this->session[$name]);
     }
 
     public function getString(string $name): string
@@ -31,21 +34,21 @@ class SessionCollection
         if (!$this->isString($name)) {
             throw new RuntimeException("No string mathches for {$name}");
         }
-        return $this->data[$name];
+        return $this->session[$name];
     }
 
     public function setString(string $name, string $value): void
     {
-        if (isset($this->data[$name])) {
+        if (isset($this->session[$name])) {
             throw new RuntimeException("Existing key: {$name}");
         }
 
-        $this->data[$name] = $value;
+        $this->session[$name] = $value;
     }
 
     public function isInteger(string $name): bool
     {
-        return is_numeric($this->data[$name]);
+        return is_numeric($this->session[$name]);
     }
 
     public function getInetger(string $name): int
@@ -54,21 +57,21 @@ class SessionCollection
             throw new RuntimeException("No integer matches for {$name}");
         }
 
-        return (int) $this->data[$name];
+        return (int) $this->session[$name];
     }
 
     public function setInteger(string $name, int $value): void
     {
-        if (isset($this->data[$name])) {
+        if (isset($this->session[$name])) {
             throw new RuntimeException("Existing key: {$name}");
         }
 
-        $this->data[$name] = $value;
+        $this->session[$name] = $value;
     }
 
     public function isCollection(string $name): bool
     {
-        return isset($this->data[$name]) && is_array($this->data[$name]);
+        return isset($this->session[$name]) && is_array($this->session[$name]);
     }
 
     public function getCollection(string $name): array
@@ -77,15 +80,15 @@ class SessionCollection
             throw new RuntimeException("No collection matches for {$name}");
         }
 
-        return $this->data[$name];
+        return $this->session[$name];
     }
 
     public function setCollection(string $name, array $value): void
     {
-        if (isset($this->data[$name])) {
+        if (isset($this->session[$name])) {
             throw new RuntimeException("Existing key: {$name}");
         }
 
-        $this->data[$name] = $value;
+        $this->session[$name] = $value;
     }
 }

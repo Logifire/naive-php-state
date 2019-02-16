@@ -6,12 +6,23 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class SessionMiddleware implements MiddlewareInterface
+class UserStateMiddleware implements MiddlewareInterface
 {
 
-    public const SESSION_KEY = 'naiveuserstate.session';
-
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    {
+        $this->initiatePhpSession($request);
+
+        $response = $handler->handle($request);
+
+        $cookie_value = $this->getCookieHeadline();
+
+        $response = $response->withAddedHeader(CookieHeaderCreator::HEADER_NAME, $cookie_value);
+
+        return $response;
+    }
+
+    private function initiatePhpSession(ServerRequestInterface $request): void
     {
         $options = [
             'cache_limiter' => '', // Disable cache headers http://php.net/manual/en/function.session-cache-limiter.php
@@ -25,14 +36,6 @@ class SessionMiddleware implements MiddlewareInterface
         }
 
         session_start($options);
-
-        $response = $handler->handle($request);
-
-        $cookie_value = $this->getCookieHeadline();
-
-        $response = $response->withAddedHeader(CreateCookieHeader::SET_COOKIE, $cookie_value);
-
-        return $response;
     }
 
     private function getCookieHeadline(): string
@@ -46,7 +49,7 @@ class SessionMiddleware implements MiddlewareInterface
         $httponly = $cookie_params['httponly'];
         $same_site = $cookie_params['samesite'] ?? ''; // PHP 7.3.0
 
-        $cookie_value = CreateCookieHeader::getHeadline(
+        $cookie_value = CookieHeaderCreator::getHeaderValue(
                 session_name(),
                 session_id(),
                 $expires,
