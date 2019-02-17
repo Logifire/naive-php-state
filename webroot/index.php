@@ -1,9 +1,10 @@
 <?php
 
 use NaiveMiddleware\RequestHandler;
+use NaivePhpState\PhpStateMiddleware;
 use NaivePhpState\ResponseCookie;
 use NaivePhpState\ResponseCookieService;
-use NaivePhpState\UserStateMiddleware;
+use NaivePhpState\Utility\ResponseCookieHandler;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7Server\ServerRequestCreator;
@@ -49,8 +50,10 @@ $request = $request_creator->fromGlobals();
 
 $handler = new RequestHandler($psr_17_factory);
 
+$response_cookie_handler = new ResponseCookieHandler($cookie_response_service);
 
-$handler->addMiddleware(new UserStateMiddleware($cookie_response_service));
+
+$handler->addMiddleware(new PhpStateMiddleware($response_cookie_handler));
 
 $handler->addMiddleware($inner_middleware);
 

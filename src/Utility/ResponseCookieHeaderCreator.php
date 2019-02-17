@@ -1,7 +1,8 @@
 <?php
-namespace NaivePhpState;
+namespace NaivePhpState\Utility;
 
 use DateTime;
+use NaivePhpState\ResponseCookie;
 
 /**
  * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
