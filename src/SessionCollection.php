@@ -1,5 +1,5 @@
 <?php
-namespace NaiveUserState;
+namespace NaivePhpState;
 
 use RuntimeException;
 

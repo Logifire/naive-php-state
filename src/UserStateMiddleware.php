@@ -1,5 +1,5 @@
 <?php
-namespace NaiveUserState;
+namespace NaivePhpState;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

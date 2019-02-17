@@ -1,5 +1,5 @@
 {
-    "name": "logifire/naive-user-state",
+    "name": "logifire/naive-php-state",
     "description": "Session and cookie handling",
     "type": "library",
     "license": "MIT",
@@ -25,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "NaiveUserState\\": "src/"
+            "NaivePhpState\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": { 
-            "NaiveUserState\\Tests\\": "tests/" 
+            "NaivePhpState\\Tests\\": "tests/" 
         }
     }
 }

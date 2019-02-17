@@ -1,9 +1,9 @@
 <?php
 
 use NaiveMiddleware\RequestHandler;
-use NaiveUserState\ResponseCookie;
-use NaiveUserState\ResponseCookieService;
-use NaiveUserState\UserStateMiddleware;
+use NaivePhpState\ResponseCookie;
+use NaivePhpState\ResponseCookieService;
+use NaivePhpState\UserStateMiddleware;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7Server\ServerRequestCreator;

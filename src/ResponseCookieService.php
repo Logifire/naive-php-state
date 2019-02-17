@@ -1,5 +1,5 @@
 <?php
-namespace NaiveUserState;
+namespace NaivePhpState;
 
 class ResponseCookieService
 {
