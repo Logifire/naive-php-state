@@ -58,6 +58,7 @@ class UserStateMiddleware implements MiddlewareInterface
      */
     private function initiatePhpSession(ServerRequestInterface $request): void
     {
+        // Session security: http://php.net/manual/en/session.security.ini.php
         $options = [
             // Disable cache headers http://php.net/manual/en/function.session-cache-limiter.php
             'cache_limiter' => '',
@@ -65,6 +66,8 @@ class UserStateMiddleware implements MiddlewareInterface
             'use_cookies' => 0,
             // Only fetch session id from cookie
             'use_only_cookies' => 1,
+            // Session ID may leak from bookmarked URL if on
+            'use_trans_sid' => 0,
             // If uninitialized session ID is sent from browser, new session ID is sent to browser. 
             // Applications are protected from session fixation via session adoption with strict mode.
             //'use_strict_mode' => 1 
@@ -99,8 +102,9 @@ class UserStateMiddleware implements MiddlewareInterface
             $response = $this->clearClientSessionId($response);
         }
 
-        // If session is instantiated
-        if (session_status() == PHP_SESSION_ACTIVE && $client_session_id === null) {
+        // If new session is started
+        // Client may have sent an invalid session id
+        if (session_status() == PHP_SESSION_ACTIVE && $client_session_id !== session_id()) {
             $response = $this->addClientSessionId($response);
         }
 
