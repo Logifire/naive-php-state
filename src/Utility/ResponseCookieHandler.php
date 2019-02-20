@@ -4,7 +4,6 @@ namespace NaivePhpState\Utility;
 use NaivePhpState\ResponseCookie;
 use NaivePhpState\ResponseCookieService;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 class ResponseCookieHandler
 {
@@ -30,16 +29,6 @@ class ResponseCookieHandler
         }
 
         return $response;
-    }
-
-    public function getClientSessionId(ServerRequestInterface $request): ?string
-    {
-        $sessino_id = null;
-        $cookie = $request->getCookieParams();
-        if (isset($cookie[session_name()])) {
-            $sessino_id = $cookie[session_name()];
-        }
-        return $sessino_id;
     }
 
     /**
