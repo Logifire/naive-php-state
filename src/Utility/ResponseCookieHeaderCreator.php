@@ -27,7 +27,9 @@ class ResponseCookieHeaderCreator
         if ($response_cookie->getExpires() !== 0) {
             // The value 0 means "until the browser is closed"
             // If not specified, the cookie will have the lifetime of a session cookie
-            $cookie[] = "Expires=" . DateTime::createFromFormat("U", $response_cookie->getExpires(), timezone_open('UTC'))->format(DateTime::COOKIE);
+            $date_time = new DateTime();
+            $date_time->setTimeStamp($response_cookie->getExpires());
+            $cookie[] = "Expires=" . $date_time->format(DateTime::COOKIE);
         }
 
         $cookie[] = "Path={$response_cookie->getPath()}";

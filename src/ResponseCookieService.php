@@ -1,9 +1,14 @@
 <?php
 namespace NaivePhpState;
 
+use RuntimeException;
+
 class ResponseCookieService
 {
 
+    /**
+     * @var ResponseCookie[]
+     */
     private $cookies = [];
 
     public function add(ResponseCookie $cookie): void

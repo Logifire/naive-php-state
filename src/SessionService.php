@@ -39,8 +39,9 @@ class SessionService
             //'use_strict_mode' => 1 
         ];
 
-        if ($this->getClientSessionId() !== null) {
-            session_id($this->getClientSessionId());
+        $client_session_id = $this->getClientSessionId();
+        if ($client_session_id !== null) {
+            session_id($client_session_id);
         }
 
         session_start($options);
