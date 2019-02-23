@@ -36,7 +36,7 @@ class SessionService
             'use_trans_sid' => 0,
             // If uninitialized session ID is sent from browser, new session ID is sent to browser. 
             // Applications are protected from session fixation via session adoption with strict mode.
-            'use_strict_mode' => 1 
+            'use_strict_mode' => 1
         ];
 
         $this->options = $options + $custom_options;

@@ -51,9 +51,8 @@ $inner_middleware = new Class($cookie_response_service, $session_service) implem
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        session_cache_limiter('public');
         $this->session_service->startWriteRead();
-        $cookie = new ResponseCookie('MyTester', 'test');
+        $cookie = new ResponseCookie('TestName', 'Test value');
         $this->service->add($cookie);
         return new Response();
     }
@@ -64,7 +63,7 @@ $handler = new RequestHandler($psr_17_factory);
 
 $response_cookie_handler = new ResponseCookieHandler($cookie_response_service);
 
-$handler->addMiddleware(new PhpStateMiddleware($response_cookie_handler, $session_service));
+$handler->addMiddleware(new PhpStateMiddleware($response_cookie_handler));
 
 $handler->addMiddleware($inner_middleware);
 
