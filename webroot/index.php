@@ -52,7 +52,7 @@ $inner_middleware = new Class($cookie_response_service, $session_service) implem
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         session_cache_limiter('public');
-        $this->session_service->start();
+        $this->session_service->startWriteRead();
         $cookie = new ResponseCookie('MyTester', 'test');
         $this->service->add($cookie);
         return new Response();

@@ -55,17 +55,17 @@ class ResponseCookieHandler
     {
         $cookie_params = session_get_cookie_params();
 
+        $cookie_params_liftime = (int) $cookie_params['lifetime'];
+        $expires = $cookie_params_liftime ? time() + $cookie_params_liftime : 0;
+
+        $same_site = $cookie_params['samesite'] ?? ''; // PHP 7.3.0
+
         $response_cookie = new ResponseCookie(session_name(), session_id());
-
-        $expires = $cookie_params['lifetime'] ? time() + $cookie_params['lifetime'] : 0;
         $response_cookie->setExpires($expires);
-
         $response_cookie->setPath($cookie_params['path']);
         $response_cookie->setDomain($cookie_params['domain']);
         $response_cookie->setSecure($cookie_params['secure']);
         $response_cookie->setHttpOnly($cookie_params['httponly']);
-
-        $same_site = $cookie_params['samesite'] ?? ''; // PHP 7.3.0
         $response_cookie->setSameSite($same_site);
 
         $cookie_value = ResponseCookieHeaderCreator::getValue($response_cookie);
