@@ -33,5 +33,11 @@
         "psr-4": { 
             "NaivePhpState\\Tests\\": "tests/" 
         }
-    }
+    },
+    "keywords": [
+        "psr-7",
+        "psr-15",
+        "middleware",
+        "session"
+    ]
 }
