@@ -1,11 +1,11 @@
 <?php
 
-use NaiveMiddleware\RequestHandler;
-use NaivePhpState\PhpStateMiddleware;
-use NaivePhpState\ResponseCookieService;
-use NaivePhpState\Tests\Utility\TestMiddleware;
-use NaivePhpState\Utility\ResponseCookieHandler;
-use NaivePhpState\Utility\ResponseCookieHeaderCreator;
+use NanoMiddleware\RequestHandler;
+use NanoPhpState\PhpStateMiddleware;
+use NanoPhpState\ResponseCookieService;
+use NanoPhpState\Tests\Utility\TestMiddleware;
+use NanoPhpState\Utility\ResponseCookieHandler;
+use NanoPhpState\Utility\ResponseCookieHeaderCreator;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;

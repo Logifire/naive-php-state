@@ -1,8 +1,8 @@
 <?php
-namespace NaivePhpState\Utility;
+namespace NanoPhpState\Utility;
 
-use NaivePhpState\ResponseCookie;
-use NaivePhpState\ResponseCookieService;
+use NanoPhpState\ResponseCookie;
+use NanoPhpState\ResponseCookieService;
 use Psr\Http\Message\ResponseInterface;
 
 class ResponseCookieHandler

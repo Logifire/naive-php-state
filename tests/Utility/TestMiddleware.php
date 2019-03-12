@@ -1,8 +1,8 @@
 <?php
-namespace NaivePhpState\Tests\Utility;
+namespace NanoPhpState\Tests\Utility;
 
-use NaivePhpState\ResponseCookie;
-use NaivePhpState\ResponseCookieService;
+use NanoPhpState\ResponseCookie;
+use NanoPhpState\ResponseCookieService;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

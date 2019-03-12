@@ -1,5 +1,5 @@
 {
-    "name": "logifire/naive-php-state",
+    "name": "logifire/nano-php-state",
     "description": "Session and cookie handling",
     "type": "library",
     "license": "MIT",
@@ -18,20 +18,20 @@
     "require-dev": {
         "phpunit/phpunit": "^8.0.2",
         "nyholm/psr7": "1.0.1",
-        "logifire/naive-middleware": "^0.0.1",
+        "logifire/nano-middleware": "^0.0.1",
         "nyholm/psr7-server": "0.3.0",
-        "logifire/naive-container": "1.2.1",
+        "logifire/nano-container": "1.2.1",
         "zendframework/zend-httphandlerrunner": "1.0.1",
         "phpstan/phpstan": "^0.11.2"
     },
     "autoload": {
         "psr-4": {
-            "NaivePhpState\\": "src/"
+            "NanoPhpState\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": { 
-            "NaivePhpState\\Tests\\": "tests/" 
+            "NanoPhpState\\Tests\\": "tests/" 
         }
     },
     "keywords": [

@@ -1,5 +1,5 @@
 <?php
-namespace NaivePhpState;
+namespace NanoPhpState;
 
 class ResponseCookie
 {

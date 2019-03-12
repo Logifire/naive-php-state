@@ -1,11 +1,11 @@
 <?php
 
-use NaiveMiddleware\RequestHandler;
-use NaivePhpState\PhpStateMiddleware;
-use NaivePhpState\ResponseCookie;
-use NaivePhpState\ResponseCookieService;
-use NaivePhpState\SessionService;
-use NaivePhpState\Utility\ResponseCookieHandler;
+use NanoMiddleware\RequestHandler;
+use NanoPhpState\PhpStateMiddleware;
+use NanoPhpState\ResponseCookie;
+use NanoPhpState\ResponseCookieService;
+use NanoPhpState\SessionService;
+use NanoPhpState\Utility\ResponseCookieHandler;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7Server\ServerRequestCreator;

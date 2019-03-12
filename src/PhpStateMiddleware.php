@@ -1,8 +1,8 @@
 <?php
-namespace NaivePhpState;
+namespace NanoPhpState;
 
-use NaivePhpState\Utility\ClientSessionIdTrait;
-use NaivePhpState\Utility\ResponseCookieHandler;
+use NanoPhpState\Utility\ClientSessionIdTrait;
+use NanoPhpState\Utility\ResponseCookieHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

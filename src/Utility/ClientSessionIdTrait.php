@@ -1,5 +1,5 @@
 <?php
-namespace NaivePhpState\Utility;
+namespace NanoPhpState\Utility;
 
 use Psr\Http\Message\ServerRequestInterface;
 

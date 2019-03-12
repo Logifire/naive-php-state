@@ -1,7 +1,7 @@
 <?php
-namespace NaivePhpState;
+namespace NanoPhpState;
 
-use NaivePhpState\Utility\ClientSessionIdTrait;
+use NanoPhpState\Utility\ClientSessionIdTrait;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SessionService
