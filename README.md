@@ -1,4 +1,4 @@
-# naive-php-state
+# nano-php-state
 
 The purpose of this library is to bridge the PHP session implementation, and the PSR 7, 15 standards.
 
@@ -26,7 +26,7 @@ $session_collection->setString('content', 'Hello World');
 This library also comes with a cookie abstraction, if you need to set custom cookies.
 ```
 ...
-// The PhpStateMiddleware has an implicit dependency on this service, must be the same reference
+// The PhpStateMiddleware has an implicit dependency on ResponseCookieService, must be the same instance past though the app
 $response_cookie_service = new ResponseCookieService();
 ...
 $cookie = new ResponseCookie('name', 'value');
